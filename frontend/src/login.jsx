@@ -49,7 +49,8 @@ export default function SignInSide() {
                     position: toast.POSITION.TOP_RIGHT,theme: "colored"});
           }
           if(response.data.message  == 'Login Success'){
-              window.location.assign("/home")
+                localStorage.setItem('token',response.data.token)
+                window.location.assign("/home")
           }
           if(response.data.message == 'Password is incorrect'){
             toast.warning("Password is incorrect !", {
