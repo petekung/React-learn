@@ -17,7 +17,7 @@ app.use(cors())
 app.post('/register', jsonParser, function (req, res, next) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
         connection.query(
-            'SELECT * FROM users WHERE  email  = ?  ', [req.body.email],
+            'SELECT * FROM users WHERE  email  = ?   ', [req.body.email,req.body.fname],
             function (err, users, fields) {
                 if (err) {
                     res.json({ status: 'Error', message: err })
@@ -35,9 +35,10 @@ app.post('/register', jsonParser, function (req, res, next) {
                             res.json({ status: 'Sucess' })
                         }
                     );    
-                }
+                } 
                 if(users.length != 0){
-                    res.json({ status: 'Error', message: 'Users Already' })
+                   
+                    res.json({ status: 'Error', message: 'Email Already' })
 
                 }
            
@@ -55,7 +56,7 @@ app.post('/login', jsonParser, function (req, res, next) {
         function (err, users, fields) {
             if (err) {
                 res.json({ status: 'Error', message: err })
-                console.log(fields);
+               
             }
             if(users.length == 0 ){
                 res.json({ status: 'Error', message: 'No users found ' })
