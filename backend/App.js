@@ -17,7 +17,7 @@ app.use(cors())
 app.post('/register', jsonParser, function (req, res, next) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
         connection.query(
-            'SELECT * FROM users WHERE  email  = ?   ', [req.body.email,req.body.fname],
+            'SELECT * FROM users WHERE  email  = ?   ', [req.body.email],
             function (err, users, fields) {
                 if (err) {
                     res.json({ status: 'Error', message: err })
@@ -83,11 +83,16 @@ app.post('/login', jsonParser, function (req, res, next) {
     );
 
 })
-app.post('/Authen', jsonParser, function (req, res, next) {
+app.post('/authen', jsonParser, function (req, res, next) {
+    try {
+        const token  = req.headers.authorization.split(' ')[1]
+        var decoded = jwt.verify(token,secret);
+        res.json({status:'Sucess',decoded})
+    }catch(err){
+        res.json({status:'Error',message:err.message})
 
-
-
-
+    }
+ 
 })
 app.listen(3333, jsonParser, function () {
     console.log('Server Runing on port 3333')
