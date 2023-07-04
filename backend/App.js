@@ -59,7 +59,7 @@ app.post('/login', jsonParser, function (req, res, next) {
                
             }
             if(users.length == 0 ){
-                res.json({ status: 'Error', message: 'No users found ' })
+                res.json({ status: 'Error', message: 'No users found' })
 
             }
             if (users.length !=0) {
@@ -68,9 +68,9 @@ app.post('/login', jsonParser, function (req, res, next) {
                     if (isLogin) {
 
                         var token = jwt.sign({ email: users[0].email }, secret);
-                        res.json({ status: 'Sucess', message: 'Login Sucess ', token }) 
+                        res.json({ status: 'Sucess', message: 'Login Success', token }) 
                     } else {
-                        res.json({ status: 'Error', message: 'Password is incorrect ' })
+                        res.json({ status: 'Error', message: 'Password is incorrect' })
 
                     }
                  
