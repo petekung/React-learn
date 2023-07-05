@@ -24,6 +24,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import  Drawer  from './drawer';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ToastContainer, toast } from 'react-toastify';
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -32,6 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Home() {
     const [open, setOpen] = React.useState(false);
+    const [opendraw, setOpendraw] = React.useState(false);
     const [name, setName] = React.useState('');
     const [ipAddress, setIpAddress] = React.useState('');
 
@@ -40,7 +42,9 @@ function Home() {
         setOpen(true);
 
     };
-
+const sendopen = () =>{
+    setOpendraw(true)
+}
     const handleClose = () => {
         setOpen(false);
     };
@@ -49,10 +53,6 @@ function Home() {
         localStorage.removeItem('token');
         window.location.assign("/login")
     };
-
-
-
-
     const url = 'http://localhost:3333'
     const token = localStorage.getItem('token')
     useEffect(() => {
@@ -71,19 +71,19 @@ function Home() {
                     "email": response.data.decoded.email
                 }
                 const users = 'http://localhost:3333'
-                // toast.success('Login Success!', {
+                // toast.success('Welcom : '+ name, {
                 //     position: toast.POSITION.TOP_CENTER,
                 //     theme: "colored"
+                   
                 // });
                 axios.post(users + '/users', input, {
                 }
                 ).then(function (res) {
-                    console.log(res.data.users[0].fname);
                     setName(res.data.users[0].fname)
                 }).catch(function (error) {
                     console.log(error)
                 });
-
+                return ;
             }
 
         })
@@ -92,22 +92,9 @@ function Home() {
             });
 
     }, [])
-    let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: 'http://localhost:3333/get',
-    };
-
-    axios.request(config)
-        .then((response) => {
-            console.log(JSON.stringify(response.data.address));
-            setIpAddress(response.data.address)
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+  
     return (
-        <><Box sx={{ flexGrow: 1 }}>
+        <><Box sx={{ flexGrow: 1}} >
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -117,12 +104,13 @@ function Home() {
                         aria-label="menu"
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon />
+                        <MenuIcon  onClick ={sendopen}/>
+                        
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Welcom ,   {name}
+                     {name}
                     </Typography>
-                    <Button color="inherit" onClick={Logout} variant="contained" color='error' >Logout</Button>
+                    <Button  onClick={Logout} variant="contained" color='error' >Logout</Button>
                 </Toolbar>
             </AppBar>
             <ToastContainer />
@@ -135,7 +123,7 @@ function Home() {
                         pb: 6,
                     }}
                 >
-                    <Container maxWidth="sm">
+                    <Container maxWidth="ml">
                         <Typography
                             component="h1"
                             variant="h2"
@@ -143,17 +131,17 @@ function Home() {
                             color="text.primary"
                             gutterBottom
                         >
-                            Your IP Address {ipAddress}
+                         
                         </Typography>
-                        <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                        <Typography variant="h5" align="center" color="text.secondary" >
                             Something short and leading about the collection below—its contents,
                             the creator, etc. Make it short and sweet, but not too short so folks
                             don&apos;t simply skip over it entirely.
                         </Typography>
                         <Stack
-                            sx={{ pt: 4 }}
+                            sx={{ pt: 10 }}
                             direction="row"
-                            spacing={2}
+                            spacing={5}
                             justifyContent="center"
                         >
                             <Button variant="contained">Main call to action</Button>
@@ -163,18 +151,13 @@ function Home() {
                 </Box>
                 <Container sx={{ py: 8 }} maxWidth="md">
                     {/* End hero unit */}
-                    <Grid container spacing={4}>
+                    <Grid container spacing={16}>
 
                     </Grid>
                 </Container>
             </main>
-
+            <Drawer sendopen = {opendraw} />
         </Box>
-
-
-
-
-
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
