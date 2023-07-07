@@ -1,0 +1,43 @@
+.button1 {
+    background-color: #DFD7BF; 
+    border-radius: 10px;
+   align-items: center;
+   display: flex;
+   justify-content: center;
+  }
+  .button1:hover {
+    background-color: #3F2305;
+    color: white;
+  }
+  .button2 {
+    background-color: #DFD7BF; 
+    border-radius: 10px;
+   align-items: center;
+   display: flex;
+   justify-content: center;
+  }
+
+  .button2:hover {
+    background-color: #B31312;
+    color: white;
+  }
+
+  @media only screen and (max-width: 600px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 765px) {
+    .text-nav {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .text-nav {
+        margin-left: 0px;
+    }
+  
+  }

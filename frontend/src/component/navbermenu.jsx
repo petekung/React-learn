@@ -1,6 +1,6 @@
 import React from 'react'
 
-function drawer() {
+function navbermenu() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function drawer() {
   )
 }
 
-export default drawer
+export default navbermenu

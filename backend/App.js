@@ -31,6 +31,7 @@ app.get('/get', jsonParser, function (req, res, next) {
 })
 app.post('/register', jsonParser, function (req, res, next) {
     bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        console.log(hash);
         connection.query(
             'SELECT * FROM users WHERE  email  = ?   ', [req.body.email],
             function (err, users, fields) {
