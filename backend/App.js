@@ -82,7 +82,7 @@ app.post('/login', jsonParser, function (req, res, next) {
 
                     if (isLogin) {
 
-                        var token = jwt.sign({ email: users[0].email }, secret);
+                        var token = jwt.sign({ email: users[0].email ,fname: users[0].fname,lname: users[0].lname }, secret);
                         res.json({ status: 'Sucess', message: 'Login Success', token })
                     } else {
                         res.json({ status: 'Error', message: 'Password is incorrect' })
@@ -96,27 +96,7 @@ app.post('/login', jsonParser, function (req, res, next) {
 
         }
     );
-
-})
-app.post('/users', jsonParser, function (req, res, next) {
-    connection.query(
-        'SELECT email,fname,lname FROM users WHERE  email  = ? ', [req.body.email],
-        function (err, users, fields) {
-            if (err) {
-                res.json({ status: 'Error', message: err })
-
-            }
-             res.json({ status: 'Sucess', message: 'Success',users})
-
-
-
-
-        }
-
-
-        
-);
-
+ 
 })
 app.post('/authen', jsonParser, function (req, res, next) {
     try {
