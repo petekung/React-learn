@@ -4,17 +4,25 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  text-decoration: none;
+  color: black;
+  transition: transform .1s;
 }
 .button1:hover {
   background-color: #3F2305;
   color: white;
+  transform: scale(1.10);
 }
 .button2 {
   background-color: #DFD7BF;
   border-radius: 10px;
   align-items: center;
-  display: flex;
-  justify-content: center;
+   /* display: flex; */
+  /* justify-content: center; */
+  text-decoration: none;
+  position: absolute;
+  right: 50px;
+  height: 50px;
 }
 .button2:hover {
   background-color: #B31312;
@@ -27,6 +35,7 @@
   font-size: 16px;
   border: none;
   cursor: pointer;
+
 }
 .dropdown {
   position: absolute;
@@ -39,14 +48,20 @@
   background-color: #f9f9f9;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+ 
+
 }
+
 .dropdown-content a {
   color: black;
-  padding:  13px;
+  display: flex;
+  padding-top: 20px;
+  padding-left: 10px;
+  text-align: left;
   text-decoration: none;
   display: block;
-  width: 100px;
-  right: 50px;
+  width: 200px;
+  height: 50px;
   margin-right: 0;
 
 }
@@ -57,7 +72,34 @@
 .none{
   display: none;
 }
-@media only screen and (max-width: 512px) {
+#fname{
+  animation: example 10s infinite;
+}
+.column {
+  text-align: center;
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 180px; /* Should be removed. Only for demonstration */
+  background-color: white;
+}
+.row {
+  content: "";
+  display: table;
+  clear: both;
+ 
+}
+@keyframes example {
+  0%   {color: #9400D3;}
+  10%  {color: #4B0082;}
+  20%  {color: #0000FF;}
+  30% {color: #00FF00;}
+  40% {color: #FFFF00;}
+  50% {color: #FF7F00;}
+  60% {color: #FF0000;}
+
+}
+@media only screen and (max-width: 640px) {
   .button1 {
     display: none;
   }
@@ -71,36 +113,69 @@
   }
 }
 
-@media only screen and (min-width: 512px) {
+@media only screen and (min-width: 640px) {
   .icon-nav {
     display: none;
   }
   .dropdown-content {
     display: none;
   }
-  
+
 }
 
-@media only screen and (max-width: 512px) {
+@media only screen and (max-width: 640px) {
   .text-nav span{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 75px;
+    width: 100px;
     top:20px;
     position: absolute;
+    right: 40px;
   }
   .text-nav p{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 180px;
+    width: 100px;
+    text-align: right;
     position: absolute;
     top:20px;
+    right: 25px;
     
   }
-}
 
+  
+}
+@media only screen and (max-width: 870px) {
+  .column {
+    float: left;
+    width: 33%;
+    padding: 10px;
+    height: 180px; /* Should be removed. Only for demonstration */
+    background-color: white;;
+  }
+
+}
+@media only screen and (max-width: 640px) {
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 180px; /* Should be removed. Only for demonstration */
+    background-color: white;;
+  }
+
+}
+@media only screen and (max-width: 280px) {
+  .column {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    height: 180px; /* Should be removed. Only for demonstration */
+    background-color: #bbb;;
+  }
+
+}
 /* @media only screen and (max-width: 500px) {
   .text-nav {
     margin-left: 0px;
