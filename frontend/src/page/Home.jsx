@@ -11,8 +11,6 @@ const Home = () => {
     const [artists, setArtists] = useState([]);
     useEffect(() => {
         axios.get(url).then((response) => {
-           
-            console.log(artists);
             setData(response.data.results)
 
         })
