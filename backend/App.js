@@ -82,7 +82,7 @@ app.post('/login', jsonParser, function (req, res, next) {
 
                     if (isLogin) {
 
-                        var token = jwt.sign({ email: users[0].email ,fname: users[0].fname,lname: users[0].lname }, secret);
+                        var token = jwt.sign({ email: users[0].email }, secret);
                         res.json({ status: 'Sucess', message: 'Login Success', token })
                     } else {
                         res.json({ status: 'Error', message: 'Password is incorrect' })
@@ -92,6 +92,42 @@ app.post('/login', jsonParser, function (req, res, next) {
 
                 });
             }
+
+
+        }
+    );
+ 
+})
+app.post('/users', jsonParser, function (req, res, next) {
+    connection.query(
+        'SELECT id,email,fname,lname FROM users WHERE  email  = ?  ', [req.body.email],
+        function (err, users, fields) {
+            if (err) {
+                res.json({ status: 'Error', message: err })
+            }
+            
+                res.json({ status: 'Sueecss', message: users })
+
+          
+          
+
+
+        }
+    );
+ 
+})
+app.put('/update', jsonParser, function (req, res, next) {
+    connection.query(
+        'UPDATE  users SET  fname  = ?,lname = ? WHERE id =?  ', [req.body.fname,req.body.lname,req.body.id],
+        function (err, users, fields) {
+            if (err) {
+                res.json({ status: 'Error', message: err })
+            }
+            
+                res.json({ status: 'Sueecss', message: users })
+
+          
+          
 
 
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext, useContext } from 'react'
 import naber from './navber.css'
 import axios from 'axios';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -6,10 +6,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import {  Link } from "react-router-dom";
 export default function navber() {
     const [openmenu, setOpenmenu] = useState(false)
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
+    const [lastname, setLastame] = useState('');
+    const [update_, setUpdate_] = useState(false);
     const token = localStorage.getItem('token')
     useEffect(() => {
         axios.post(import.meta.env.VITE_API_KEY_AUTHEN, {
@@ -23,7 +26,11 @@ export default function navber() {
                 localStorage.clear()
             }
             if (response.data.status == 'Sucess') {
-                setName(response.data.decoded.fname)
+                axios.post(import.meta.env.VITE_API_KEY_USERS, {email: response.data.decoded.email}).then(function(res){
+                            setName(res.data.message[0].fname)
+                            setLastame(res.data.message[0].lname)
+                })
+             
                 return;
             }
 
@@ -33,10 +40,14 @@ export default function navber() {
             });
 
     }, [])
-
     const Logout = () => {
         setOpen(true);
     };
+    const Update  =()=>{
+        setUpdate_(prev => !prev)
+
+
+    }
     const con_firm = () => {
         localStorage.removeItem('token');
         window.location.assign("/login")
@@ -47,31 +58,41 @@ export default function navber() {
     const menu = () => {
         setOpenmenu(prev => !prev)
     }
+   
     return (
-        <div style={{ display: "flex", width: "100%", background: '#DFD7BF', height: "50px" ,position:"fixed"}} className='body-nav'>
+     
+     <div style={{ display: "flex", width: "100%", background: '#DFD7BF', height: "50px" ,position:"fixed"}} className='body-nav'>
             <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center", }} className='text-nav'  >
                 <div style={{ display: "flex" }} >
-                    <span style={{ marginLeft: "10px" }}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname' > {name} </p>
+                    <span style={{ marginLeft: "10px" }}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname'  onClick={Update}> {name} {lastname} </p>
                 </div>
             </div>
             <div style={{  textAlign: "center", width: "40%", height: "50px", alignItems: "center", display: "flex" ,marginLeft:"20px" }}>
-             <a href='/home' className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }}>  
+             <Link to={`/home`} href='/home' className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }}>  
                     <span  style={{alignItems:"center"}}>
                         Home
                     </span>
-                </a>
+                </Link>
 
-                <a href='/about' className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
+                <Link to={`/about`} className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
                     <span  >
                         About
                     </span>
-                </a>
-                <span className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
+                </Link>
+                <Link to={`/pokemon`}  className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
+                    <span  >
+                    Pokemon
+                    </span>
+                </Link>
+                <Link to={`#`} className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
+                <span  >
                     Contact me
                 </span>
+                </Link>
+               
 
             </div>
-            <button className='button button2' style={{ width: "10%", border: "none", alignItems: 'center', justifyContent: "center"}} onClick={Logout}>
+            <button className='button button2' style={{ width: "10%", border: "none", alignItems: 'center', justifyContent: "center",cursor:"pointer"}} onClick={Logout}>
                 Logout
             </button>
             <Dialog
@@ -100,14 +121,17 @@ export default function navber() {
                     <a href="/about">About</a>
 
 
+                    <a href="/pokemon"> Pokemon</a>
                     <a href="#"> Contact me</a>
 
-
-                    <a style={{ border: "none", color: '#B31312' }} onClick={Logout}>
+                    <a style={{ border: "none", color: '#B31312',cursor:"pointer" }} onClick={Logout}>
                         Logout
                     </a>
                 </div>
             </div>
+
         </div>
+      
+     
     )
 }
