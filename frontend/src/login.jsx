@@ -33,12 +33,11 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-    const [url,setUrl] =useState('http://localhost:3333')
   const handleSubmit = (event) => {
   
     const data = new FormData(event.currentTarget);
     event.preventDefault();
-        axios.post(url+'/login', {
+        axios.post(import.meta.env.VITE_API_KEY_LOGIN, {
             email: data.get('email'),
             password: data.get('password')
           })

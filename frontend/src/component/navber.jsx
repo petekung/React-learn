@@ -6,15 +6,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import HomeIcon from '@mui/icons-material/Home';
 export default function navber() {
     const [openmenu, setOpenmenu] = useState(false)
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
-    const url = 'http://localhost:3333'
     const token = localStorage.getItem('token')
     useEffect(() => {
-        axios.post(url + '/authen', {
+        axios.post(import.meta.env.VITE_API_KEY_AUTHEN, {
         }, {
             headers: {
                 'Authorization': ' Bearer ' + token

@@ -8,7 +8,6 @@ const url = 'https://pokeapi.co/api/v2/pokemon?limit=200';
 const Home = () => {
     const [data, setData] = useState([])
     const [dataurl, setDataurl] = useState([])
-    const [artists, setArtists] = useState([]);
     useEffect(() => {
         axios.get(url).then((response) => {
             setData(response.data.results)
@@ -19,7 +18,7 @@ const Home = () => {
             });
     }, [url]);
     const listItems = data.map((item) =>
-            <div className="column" key={item.url}>{item.name}</div>
+            <div className="column" key={item.name}>{item.name}</div>
     );
     return (
         <>
