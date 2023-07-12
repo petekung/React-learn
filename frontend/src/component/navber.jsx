@@ -5,15 +5,18 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import {  Link, NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Button, Modal, Input, Select, Space } from 'antd';
+const { Search } = Input;
+
 export default function navber() {
     const [openmenu, setOpenmenu] = useState(false)
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
+    const [id, setID] = useState('');
     const [lastname, setLastame] = useState('');
     const [update_, setUpdate_] = useState(false);
-    console.log(update_);
+    const [count, setCount] = useState(0);
     const token = localStorage.getItem('token')
     useEffect(() => {
         axios.post(import.meta.env.VITE_API_KEY_AUTHEN, {
@@ -27,29 +30,26 @@ export default function navber() {
                 localStorage.clear()
             }
             if (response.data.status == 'Sucess') {
-                axios.post(import.meta.env.VITE_API_KEY_USERS, {email: response.data.decoded.email}).then(function(res){
-                             setName(res.data.message[0].fname)
-                            setLastame(res.data.message[0].lname)
-                            // showdataname(res.data.message[0].fname)
+                axios.post(import.meta.env.VITE_API_KEY_USERS, { email: response.data.decoded.email }).then(function (res) {
+                    setName(res.data.message[0].fname)
+                    setLastame(res.data.message[0].lname)
+                    setID(res.data.message[0].id)
+                    // showdataname(res.data.message[0].fname)
                 })
-             
+
                 return;
             }
+
 
         })
             .catch(function (error) {
                 console.log(error)
             });
 
-    }, [])
+    }, [count])
     const Logout = () => {
         setOpen(true);
     };
-    // const Update  =()=>{
-    //     setUpdate_(prev => !prev)
-
-
-    // }
     const con_firm = () => {
         localStorage.removeItem('token');
         window.location.assign("/login")
@@ -60,18 +60,41 @@ export default function navber() {
     const menu = () => {
         setOpenmenu(prev => !prev)
     }
+    const Update = () => {
+       
+        
+        const namechange = document.getElementById('name').value
+        const lastnamechange = document.getElementById('lastname').value
+            axios.put(import.meta.env.VITE_API_KEY_UPDATE, {
+                id: id,
+                fname: namechange,
+                lname: lastnamechange,
+            })
+                .then((response) => {
+                    console.log(response.data);
+                    setUpdate_(false)
+                    setCount(count + 1)
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+             
+            
+              
    
+      
+    }
     return (
 
-     <div style={{ display: "flex", width: "100%", background: '#DFD7BF', height: "50px" ,position:"fixed"}} className='body-nav'>
+        <div style={{ display: "flex", width: "100%", background: '#DFD7BF', height: "50px", position: "fixed" }} className='body-nav'>
             <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center", }} className='text-nav'  >
                 <div style={{ display: "flex" }} >
-                    <span style={{ marginLeft: "10px" ,display: "flex" ,alignItems:'center',width:"40%"}}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname'  onClick={()=>setUpdate_(prev => !prev)}> {name} {lastname} </p>
+                    <span style={{ marginLeft: "10px", display: "flex", alignItems: 'center', marginRight: '10px' }}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname' onClick={() => setUpdate_(prev => !prev)}> {name} {lastname} </p>
                 </div>
             </div>
-            <div style={{  textAlign: "center", width: "40%", height: "50px", alignItems: "center", display: "flex" ,marginLeft:"20px" }}>
-             <Link to={`/home`} href='/home' className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }}>  
-                    <span  style={{alignItems:"center"}}>
+            <div style={{ textAlign: "center", width: "60%", height: "50px", alignItems: "center", display: "flex", marginLeft: "20px" }}>
+                <Link to={`/home`} href='/home' className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }}>
+                    <span style={{ alignItems: "center" }}>
                         Home
                     </span>
                 </Link>
@@ -81,20 +104,20 @@ export default function navber() {
                         About
                     </span>
                 </Link>
-                <Link to={`/pokemon`}  className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
+                <Link to={`/pokemon`} className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
                     <span  >
-                    Pokemon
+                        Pokemon
                     </span>
                 </Link>
                 <Link to={`#`} className='button button1' style={{ width: "100px", border: "none", height: "90%", cursor: "pointer", marginRight: "10px" }} >
-                <span  >
-                    Contact me
-                </span>
+                    <span  >
+                        Contact me
+                    </span>
                 </Link>
-               
+
 
             </div>
-            <button className='button button2' style={{ width: "10%", border: "none", alignItems: 'center', justifyContent: "center",cursor:"pointer"}} onClick={Logout}>
+            <button className='button button2' style={{ width: "10%", border: "none", alignItems: 'center', justifyContent: "center", cursor: "pointer" }} onClick={Logout}>
                 Logout
             </button>
             <Dialog
@@ -118,24 +141,40 @@ export default function navber() {
             <div className="dropdown" >
                 <div className='icon-nav' style={{ alignItems: "center", width: "50px", justifyContent: "center" }} onClick={menu}><FormatListBulletedIcon fontSize='medium' /></div>
                 <div className={`${openmenu == true ? "dropdown-content" : "none"}`} >
-                    <Link  to={`/home`} >Home</Link>
+                    <Link to={`/home`} >Home</Link>
 
-                    <Link to = {`/about`} >About</Link>
+                    <Link to={`/about`} >About</Link>
 
 
-                    <NavLink  to = {`/pokemon`}> Pokemon</NavLink>
+                    <NavLink to={`/pokemon`}> Pokemon</NavLink>
                     <a href="#"> Contact me</a>
 
-                    <a style={{ border: "none", color: '#B31312',cursor:"pointer" }} onClick={Logout}>
+                    <a style={{ border: "none", color: '#B31312', cursor: "pointer" }} onClick={Logout}>
                         Logout
                     </a>
                 </div>
             </div>
+            <>
 
+                <Modal
+                    title="Change Name "
+                    centered
+                    open={update_}
+                    onOk={Update}
+                    onCancel={() => setUpdate_(false)}
+
+                >  <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                        <Input placeholder={name} style={{ marginBottom: "10px", width: "49%", display: "flex" }} id='name' maxLength={10} />
+                        <Input placeholder={lastname} style={{ marginBottom: "10px", width: "49%", display: "flex" }} id='lastname'  maxLength={10}/>
+                    </div>
+                </Modal>
+
+
+            </>
         </div>
 
 
-      
-     
+
+
     )
 }
