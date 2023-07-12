@@ -131,7 +131,7 @@
     width: auto;
     top:20px;
     position: absolute;
-    right:110px;
+    right:140px;
   }
   .text-nav p{
     display: flex;
@@ -141,7 +141,7 @@
     position: absolute;
     top:20px;
     right: 25px;
-    margin-left: 10px;
+   
     
   }
 
@@ -173,7 +173,7 @@
     width: 100%;
     padding: 10px;
     height: 180px; /* Should be removed. Only for demonstration */
-    background-color: #bbb;;
+    background-color: white;
   }
 
 }

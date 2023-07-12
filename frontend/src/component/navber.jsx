@@ -6,13 +6,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import {  Link } from "react-router-dom";
+import {  Link, NavLink } from "react-router-dom";
 export default function navber() {
     const [openmenu, setOpenmenu] = useState(false)
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
     const [lastname, setLastame] = useState('');
     const [update_, setUpdate_] = useState(false);
+    console.log(update_);
     const token = localStorage.getItem('token')
     useEffect(() => {
         axios.post(import.meta.env.VITE_API_KEY_AUTHEN, {
@@ -27,8 +28,9 @@ export default function navber() {
             }
             if (response.data.status == 'Sucess') {
                 axios.post(import.meta.env.VITE_API_KEY_USERS, {email: response.data.decoded.email}).then(function(res){
-                            setName(res.data.message[0].fname)
+                             setName(res.data.message[0].fname)
                             setLastame(res.data.message[0].lname)
+                            // showdataname(res.data.message[0].fname)
                 })
              
                 return;
@@ -43,11 +45,11 @@ export default function navber() {
     const Logout = () => {
         setOpen(true);
     };
-    const Update  =()=>{
-        setUpdate_(prev => !prev)
+    // const Update  =()=>{
+    //     setUpdate_(prev => !prev)
 
 
-    }
+    // }
     const con_firm = () => {
         localStorage.removeItem('token');
         window.location.assign("/login")
@@ -60,11 +62,11 @@ export default function navber() {
     }
    
     return (
-     
+
      <div style={{ display: "flex", width: "100%", background: '#DFD7BF', height: "50px" ,position:"fixed"}} className='body-nav'>
             <div style={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center", }} className='text-nav'  >
                 <div style={{ display: "flex" }} >
-                    <span style={{ marginLeft: "10px" }}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname'  onClick={Update}> {name} {lastname} </p>
+                    <span style={{ marginLeft: "10px" ,display: "flex" ,alignItems:'center',width:"40%"}}  > Hi :   &nbsp; </span><p style={{ color: "#068FFF", cursor: 'pointer' }} id='fname'  onClick={()=>setUpdate_(prev => !prev)}> {name} {lastname} </p>
                 </div>
             </div>
             <div style={{  textAlign: "center", width: "40%", height: "50px", alignItems: "center", display: "flex" ,marginLeft:"20px" }}>
@@ -116,12 +118,12 @@ export default function navber() {
             <div className="dropdown" >
                 <div className='icon-nav' style={{ alignItems: "center", width: "50px", justifyContent: "center" }} onClick={menu}><FormatListBulletedIcon fontSize='medium' /></div>
                 <div className={`${openmenu == true ? "dropdown-content" : "none"}`} >
-                    <a href="/home">Home</a>
+                    <Link  to={`/home`} >Home</Link>
 
-                    <a href="/about">About</a>
+                    <Link to = {`/about`} >About</Link>
 
 
-                    <a href="/pokemon"> Pokemon</a>
+                    <NavLink  to = {`/pokemon`}> Pokemon</NavLink>
                     <a href="#"> Contact me</a>
 
                     <a style={{ border: "none", color: '#B31312',cursor:"pointer" }} onClick={Logout}>
@@ -131,6 +133,8 @@ export default function navber() {
             </div>
 
         </div>
+
+
       
      
     )
