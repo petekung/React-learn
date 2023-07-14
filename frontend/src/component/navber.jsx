@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import { Link, NavLink } from "react-router-dom";
-import { Button, Modal, Input, Select, Space } from 'antd';
+import { Button, Modal, Input, Select, Space, Alert } from 'antd';
 const { Search } = Input;
 
 export default function navber() {
@@ -61,10 +61,14 @@ export default function navber() {
         setOpenmenu(prev => !prev)
     }
     const Update = () => {
-       
-        
         const namechange = document.getElementById('name').value
         const lastnamechange = document.getElementById('lastname').value
+        if (namechange == '' || lastnamechange == '') {
+
+
+
+        }
+        if (namechange != '' && lastnamechange != '') {
             axios.put(import.meta.env.VITE_API_KEY_UPDATE, {
                 id: id,
                 fname: namechange,
@@ -78,11 +82,8 @@ export default function navber() {
                 .catch((error) => {
                     console.error(error);
                 });
-             
-            
-              
-   
-      
+        }
+
     }
     return (
 
@@ -137,7 +138,16 @@ export default function navber() {
                     </Button>
                 </DialogActions>
             </Dialog>
-
+            {/* <Space direction="vertical" style={{ width: '100%' ,marginTop:"20px"}}>
+               <Alert
+                    message="Warning"
+                    description="You haven't entered your Name and Lastname yet."
+                    type="warning"
+                    showIcon
+                    closable
+                />
+             
+            </Space> */}
             <div className="dropdown" >
                 <div className='icon-nav' style={{ alignItems: "center", width: "50px", justifyContent: "center" }} onClick={menu}><FormatListBulletedIcon fontSize='medium' /></div>
                 <div className={`${openmenu == true ? "dropdown-content" : "none"}`} >
@@ -164,8 +174,8 @@ export default function navber() {
                     onCancel={() => setUpdate_(false)}
 
                 >  <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                        <Input placeholder={name} style={{ marginBottom: "10px", width: "49%", display: "flex" }} id='name' maxLength={10} />
-                        <Input placeholder={lastname} style={{ marginBottom: "10px", width: "49%", display: "flex" }} id='lastname'  maxLength={10}/>
+                        <Input placeholder={name} style={{ marginBottom: "10px", width: "48%", display: "flex" }} id='name' maxLength={10} required />
+                        <Input placeholder={lastname} style={{ marginBottom: "10px", width: "48%", display: "flex" }} id='lastname' maxLength={10} required />
                     </div>
                 </Modal>
 
