@@ -17,7 +17,7 @@ export default function pokemoncard({ item, index }) {
     <div className="column" key={data.name}>
       <div>
         <span style={{fontSize:"18px"}} key={data.id}>
-          {index + 1} {item.name}
+          {index + 1}  .  {item.name}
         </span>
       </div>
 
